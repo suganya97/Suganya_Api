@@ -48,10 +48,11 @@ namespace MOD_BAL
                 };
 
                 db.UserDtls.Add(user);
+
+                db.SaveChanges();
+
             }
 
-            db.SaveChanges();
-           
         }
         public void Delete(int id)
         {
