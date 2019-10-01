@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MOD_BAL
 {
-    class admin
+    public class admin
     {
     }
 }

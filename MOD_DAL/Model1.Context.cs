@@ -13,10 +13,10 @@ namespace MOD_DAL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MODDBEntities1 : DbContext
+    public partial class MOD_DBEntities : DbContext
     {
-        public MODDBEntities1()
-            : base("name=MODDBEntities1")
+        public MOD_DBEntities()
+            : base("name=MOD_DBEntities")
         {
         }
     
@@ -25,9 +25,9 @@ namespace MOD_DAL
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<PaymentDtl> PaymentDtls { get; set; }
-        public virtual DbSet<SkillDtl> SkillDtls { get; set; }
         public virtual DbSet<TrainingDtl> TrainingDtls { get; set; }
         public virtual DbSet<UserDtl> UserDtls { get; set; }
+        public virtual DbSet<PaymentDtl> PaymentDtls { get; set; }
+        public virtual DbSet<SkillDtl> SkillDtls { get; set; }
     }
 }

@@ -14,28 +14,71 @@ namespace MOD_API.Controllers
     public class DefaultController : ApiController
     {
 
-        MOD_BAL.user use=new MOD_BAL.user();
-        [Route("api/get")]
-        [HttpGet]
-        public IHttpActionResult GetUser()
+        MOD_BAL.user ctrl = new MOD_BAL.user();
+         //without header
+        //user ctrl = new user();
+
+
+        // GET: api/getallusersandmentors
+        [Route("api/getAll")]
+        public IHttpActionResult Get()
         {
-            var result = use.GetAll();
-            return Ok(result);
+            return Ok(ctrl.GetAll()); 
         }
-        [Route("api/get/{ID}")]
-        public IHttpActionResult GetById(int id)
+
+        // GET: api/user/5
+        [Route("api/user/{id}")]
+        public IHttpActionResult Get(int id)
         {
-            var result = use.GetUserById(id);
-       
-            return Ok(result);
+            return Ok(ctrl.Get(id));
         }
-        
+
+        // POST: api/Register
         [Route("api/register")]
-       [HttpPost]
-        public UserDtl POST(UserDtl userDtl)
+        public IHttpActionResult Post(UserDtl userDtl)
         {
-            use.Register(userDtl);
-            return use.GetUserById(userDtl.id);
+            ctrl.Add(userDtl);
+            return Ok("Record Added");
         }
+
+        // PUT: api/user/5
+        [Route("api/user/edit/{id}")]
+        public IHttpActionResult Put(UserDtl userDtl)
+        {
+            ctrl.Update(userDtl);
+            return Ok("Record Updated");
+        }
+
+        // DELETE: api/Product/5
+        [Route("api/Delete/{id}")]
+        public IHttpActionResult Delete(int id)
+        {
+            ctrl.Delete(id);
+            return Ok("Record Deleted");
+        }
+
+
+       // [Route("api/get")]
+       // [HttpGet]
+       // public IHttpActionResult GetUser()
+       // {
+       //     var result = ctrl.GetAll();
+       //     return Ok(result);
+       // }
+       // [Route("api/get/{ID}")]
+       // public IHttpActionResult GetById(int id)
+       // {
+       //     var result = ctrl.GetUserById(id);
+       
+       //     return Ok(result);
+       // }
+        
+       // [Route("api/register")]
+       //[HttpPost]
+       // public UserDtl POST(UserDtl userDtl)
+       // {
+       //     ctrl.Register(userDtl);
+       //     return ctrl.GetUserById(userDtl.id);
+       // }
     }
 }
