@@ -33,20 +33,38 @@ namespace MOD_API.Controllers
             return Ok(ctrl.Get(id));
         }
 
+        //POST: api/login
+        [Route("api/login")]
+        [HttpPost]
+        public IHttpActionResult LogIn(UserDtl userDtl)
+        {
+            var result = ctrl.Login(userDtl);
+            return Ok(result);
+        }
+
         // POST: api/Register
         [Route("api/register")]
         public IHttpActionResult Post(UserDtl userDtl)
         {
-            ctrl.Add(userDtl);
-            return Ok("Record Added");
+            ctrl.Register(userDtl);
+            return Ok("User Registered");
         }
 
         // PUT: api/user/5
-        [Route("api/user/edit/{id}")]
-        public IHttpActionResult Put(UserDtl userDtl)
+        [Route("api/block/{id}")]
+        [HttpPut]
+        public IHttpActionResult Block(int id)
         {
-            ctrl.Update(userDtl);
-            return Ok("Record Updated");
+            ctrl.Block(id);
+            return Ok("Blocked");
+        }
+
+        [Route("api/unblock/{id}")]
+        [HttpPut]
+        public IHttpActionResult Unblock(int id)
+        {
+            ctrl.UnBlock(id);
+            return Ok("Unblocked");
         }
 
         // DELETE: api/Product/5

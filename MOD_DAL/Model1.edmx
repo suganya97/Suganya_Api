@@ -4,16 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MOD_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'MOD_DB.dbo.PaymentDtls' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+      <Schema Namespace="MODDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="PaymentDtls">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="mentorId" />
-            <PropertyRef Name="trainingId" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="txtType" Type="varchar" MaxLength="50" />
           <Property Name="amount" Type="float" />
           <Property Name="remarks" Type="varchar" MaxLength="50" />
@@ -23,13 +19,11 @@ warning 6002: The table/view 'MOD_DB.dbo.PaymentDtls' does not have a primary ke
           <Property Name="skillName" Type="varchar" MaxLength="50" />
           <Property Name="totalAmountToMentor" Type="float" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'MOD_DB.dbo.SkillDtls' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="SkillDtls">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" />
           <Property Name="toc" Type="varchar" MaxLength="50" />
           <Property Name="prerequisites" Type="nchar" MaxLength="10" />
@@ -38,7 +32,7 @@ warning 6002: The table/view 'MOD_DB.dbo.SkillDtls' does not have a primary key 
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="status" Type="varchar" MaxLength="50" />
           <Property Name="progress" Type="int" />
           <Property Name="commisionAmount" Type="float" />
@@ -61,7 +55,7 @@ warning 6002: The table/view 'MOD_DB.dbo.SkillDtls' does not have a primary key 
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="userName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
@@ -90,30 +84,11 @@ warning 6002: The table/view 'MOD_DB.dbo.SkillDtls' does not have a primary key 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="MOD_DBModelStoreContainer">
+        <EntityContainer Name="MODDBModelStoreContainer">
+          <EntitySet Name="PaymentDtls" EntityType="Self.PaymentDtls" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SkillDtls" EntityType="Self.SkillDtls" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrainingDtls" EntityType="Self.TrainingDtls" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDtls" EntityType="Self.UserDtls" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PaymentDtls" EntityType="Self.PaymentDtls" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [PaymentDtls].[id] AS [id], 
-    [PaymentDtls].[txtType] AS [txtType], 
-    [PaymentDtls].[amount] AS [amount], 
-    [PaymentDtls].[remarks] AS [remarks], 
-    [PaymentDtls].[mentorId] AS [mentorId], 
-    [PaymentDtls].[mentorName] AS [mentorName], 
-    [PaymentDtls].[trainingId] AS [trainingId], 
-    [PaymentDtls].[skillName] AS [skillName], 
-    [PaymentDtls].[totalAmountToMentor] AS [totalAmountToMentor]
-    FROM [dbo].[PaymentDtls] AS [PaymentDtls]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="SkillDtls" EntityType="Self.SkillDtls" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [SkillDtls].[id] AS [id], 
-    [SkillDtls].[name] AS [name], 
-    [SkillDtls].[toc] AS [toc], 
-    [SkillDtls].[prerequisites] AS [prerequisites]
-    FROM [dbo].[SkillDtls] AS [SkillDtls]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_SkillDtls_UserDtls" Association="Self.FK_SkillDtls_UserDtls">
             <End Role="TrainingDtls" EntitySet="TrainingDtls" />
             <End Role="SkillDtls" EntitySet="SkillDtls" />
@@ -123,12 +98,36 @@ warning 6002: The table/view 'MOD_DB.dbo.SkillDtls' does not have a primary key 
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="MOD_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="MODDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PaymentDtl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="txtType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="amount" Type="Double" />
+          <Property Name="remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="mentorId" Type="Int32" Nullable="false" />
+          <Property Name="mentorName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="trainingId" Type="Int32" Nullable="false" />
+          <Property Name="skillName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="totalAmountToMentor" Type="Double" />
+        </EntityType>
+        <EntityType Name="SkillDtl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="toc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="prerequisites" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="TrainingDtl" Relationship="Self.FK_SkillDtls_UserDtls" FromRole="SkillDtls" ToRole="TrainingDtls" />
+        </EntityType>
         <EntityType Name="TrainingDtl">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="progress" Type="Int32" />
           <Property Name="commisionAmount" Type="Double" />
@@ -152,7 +151,7 @@ warning 6002: The table/view 'MOD_DB.dbo.SkillDtls' does not have a primary key 
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="userName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -169,32 +168,6 @@ warning 6002: The table/view 'MOD_DB.dbo.SkillDtls' does not have a primary key 
           <Property Name="resetPassword" Type="Boolean" />
           <Property Name="pictureUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="PaymentDtl">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="mentorId" />
-            <PropertyRef Name="trainingId" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="txtType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="amount" Type="Double" />
-          <Property Name="remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="mentorId" Type="Int32" Nullable="false" />
-          <Property Name="mentorName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="trainingId" Type="Int32" Nullable="false" />
-          <Property Name="skillName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="totalAmountToMentor" Type="Double" />
-        </EntityType>
-        <EntityType Name="SkillDtl">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="toc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="prerequisites" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="TrainingDtl" Relationship="Self.FK_SkillDtls_UserDtls" FromRole="SkillDtls" ToRole="TrainingDtls" />
-        </EntityType>
         <Association Name="FK_SkillDtls_UserDtls">
           <End Role="TrainingDtls" Type="Self.TrainingDtl" Multiplicity="1" />
           <End Role="SkillDtls" Type="Self.SkillDtl" Multiplicity="0..1" />
@@ -207,11 +180,11 @@ warning 6002: The table/view 'MOD_DB.dbo.SkillDtls' does not have a primary key 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="MOD_DBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="TrainingDtls" EntityType="Self.TrainingDtl" />
-          <EntitySet Name="UserDtls" EntityType="Self.UserDtl" />
+        <EntityContainer Name="MyEntity" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="PaymentDtls" EntityType="Self.PaymentDtl" />
           <EntitySet Name="SkillDtls" EntityType="Self.SkillDtl" />
+          <EntitySet Name="TrainingDtls" EntityType="Self.TrainingDtl" />
+          <EntitySet Name="UserDtls" EntityType="Self.UserDtl" />
           <AssociationSet Name="FK_SkillDtls_UserDtls" Association="Self.FK_SkillDtls_UserDtls">
             <End Role="TrainingDtls" EntitySet="TrainingDtls" />
             <End Role="SkillDtls" EntitySet="SkillDtls" />
@@ -222,9 +195,34 @@ warning 6002: The table/view 'MOD_DB.dbo.SkillDtls' does not have a primary key 
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="MOD_DBModelStoreContainer" CdmEntityContainer="MOD_DBEntities">
+        <EntityContainerMapping StorageEntityContainer="MODDBModelStoreContainer" CdmEntityContainer="MyEntity">
+          <EntitySetMapping Name="PaymentDtls">
+            <EntityTypeMapping TypeName="MODDBModel.PaymentDtl">
+              <MappingFragment StoreEntitySet="PaymentDtls">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="txtType" ColumnName="txtType" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="mentorId" ColumnName="mentorId" />
+                <ScalarProperty Name="mentorName" ColumnName="mentorName" />
+                <ScalarProperty Name="trainingId" ColumnName="trainingId" />
+                <ScalarProperty Name="skillName" ColumnName="skillName" />
+                <ScalarProperty Name="totalAmountToMentor" ColumnName="totalAmountToMentor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SkillDtls">
+            <EntityTypeMapping TypeName="MODDBModel.SkillDtl">
+              <MappingFragment StoreEntitySet="SkillDtls">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="toc" ColumnName="toc" />
+                <ScalarProperty Name="prerequisites" ColumnName="prerequisites" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TrainingDtls">
-            <EntityTypeMapping TypeName="MOD_DBModel.TrainingDtl">
+            <EntityTypeMapping TypeName="MODDBModel.TrainingDtl">
               <MappingFragment StoreEntitySet="TrainingDtls">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="status" ColumnName="status" />
@@ -248,7 +246,7 @@ warning 6002: The table/view 'MOD_DB.dbo.SkillDtls' does not have a primary key 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserDtls">
-            <EntityTypeMapping TypeName="MOD_DBModel.UserDtl">
+            <EntityTypeMapping TypeName="MODDBModel.UserDtl">
               <MappingFragment StoreEntitySet="UserDtls">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="email" ColumnName="email" />
@@ -266,31 +264,6 @@ warning 6002: The table/view 'MOD_DB.dbo.SkillDtls' does not have a primary key 
                 <ScalarProperty Name="resetPasswordDate" ColumnName="resetPasswordDate" />
                 <ScalarProperty Name="resetPassword" ColumnName="resetPassword" />
                 <ScalarProperty Name="pictureUrl" ColumnName="pictureUrl" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PaymentDtls">
-            <EntityTypeMapping TypeName="MOD_DBModel.PaymentDtl">
-              <MappingFragment StoreEntitySet="PaymentDtls">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="txtType" ColumnName="txtType" />
-                <ScalarProperty Name="amount" ColumnName="amount" />
-                <ScalarProperty Name="remarks" ColumnName="remarks" />
-                <ScalarProperty Name="mentorId" ColumnName="mentorId" />
-                <ScalarProperty Name="mentorName" ColumnName="mentorName" />
-                <ScalarProperty Name="trainingId" ColumnName="trainingId" />
-                <ScalarProperty Name="skillName" ColumnName="skillName" />
-                <ScalarProperty Name="totalAmountToMentor" ColumnName="totalAmountToMentor" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SkillDtls">
-            <EntityTypeMapping TypeName="MOD_DBModel.SkillDtl">
-              <MappingFragment StoreEntitySet="SkillDtls">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="toc" ColumnName="toc" />
-                <ScalarProperty Name="prerequisites" ColumnName="prerequisites" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
