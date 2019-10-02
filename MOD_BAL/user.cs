@@ -96,12 +96,17 @@ namespace MOD_BAL
             }
 
         }
-        public void Delete(int id)
+
+        public void addTechnology(SkillDtl skill)
         {
-           
+            db.SkillDtls.Add(skill);
+            db.SaveChanges();
+        }
+
+        public void Delete(int id)
+        {  
                 db.UserDtls.Remove(db.UserDtls.Find(id));
                 db.SaveChanges();
-            
         }
         public void Block(int id)
         {

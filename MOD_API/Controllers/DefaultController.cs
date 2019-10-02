@@ -50,6 +50,14 @@ namespace MOD_API.Controllers
             return Ok("User Registered");
         }
 
+        [Route("app/addTech")]
+        [HttpPost]
+        public IHttpActionResult addTechno(SkillDtl skill)
+        {
+            ctrl.addTechnology(skill);
+            return Ok("Technology Added");
+        }
+
         // PUT: api/user/5
         [Route("api/block/{id}")]
         [HttpPut]
