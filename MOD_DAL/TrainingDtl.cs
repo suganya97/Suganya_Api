@@ -33,6 +33,6 @@ namespace MOD_DAL
         public string skillname { get; set; }
         public Nullable<double> fees { get; set; }
     
-        public virtual SkillDtl SkillDtl { get; set; }
+        public virtual SkillDtl SkillDtl1 { get; set; }
     }
 }

@@ -34,11 +34,21 @@ namespace MOD_API.Controllers
         }
 
         //POST: api/login
+        //[Route("api/login")]
+        //[HttpGet]
+        //public IHttpActionResult LogIn(UserDtl userDtl)
+        //{
+        //    var result = ctrl.Login(userDtl);
+        //    return Ok(result);
+        //}
+
+          
+        //POST: api/login
         [Route("api/login")]
-        [HttpPost]
-        public IHttpActionResult LogIn(UserDtl userDtl)
+        [HttpGet]
+        public IHttpActionResult LogIn(string email, string password)
         {
-            var result = ctrl.Login(userDtl);
+            var result = ctrl.Login(email, password);
             return Ok(result);
         }
 
@@ -46,8 +56,15 @@ namespace MOD_API.Controllers
         [Route("api/register")]
         public IHttpActionResult Post(UserDtl userDtl)
         {
-            ctrl.Register(userDtl);
-            return Ok("User Registered");
+            int result=ctrl.Register(userDtl);
+            if (result == 0)
+            {
+                return Ok("User Registered");
+            }
+            else
+            {
+                return Ok("Email already Exists");
+            }
         }
 
         [Route("app/addTech")]
@@ -56,6 +73,21 @@ namespace MOD_API.Controllers
         {
             ctrl.addTechnology(skill);
             return Ok("Technology Added");
+        }
+
+        [Route("api/getTech")]
+        [HttpGet]
+        public IHttpActionResult getTechno()
+        {
+            return Ok(ctrl.GetAllTechnology());
+        }
+
+        // DELETE: api/Product/5
+        [Route("api/DeleteSkillById/{id}")]
+        public IHttpActionResult DeleteSkill(int id)
+        {
+            ctrl.DeleteTechnology(id);
+            return Ok("Skill Deleted");
         }
 
         // PUT: api/user/5
@@ -75,13 +107,13 @@ namespace MOD_API.Controllers
             return Ok("Unblocked");
         }
 
-        // DELETE: api/Product/5
-        [Route("api/Delete/{id}")]
-        public IHttpActionResult Delete(int id)
-        {
-            ctrl.Delete(id);
-            return Ok("Record Deleted");
-        }
+        //// DELETE: api/Product/5
+        //[Route("api/Delete/{id}")]
+        //public IHttpActionResult Delete(int id)
+        //{
+        //    ctrl.Delete(id);
+        //    return Ok("Record Deleted");
+        //}
 
 
        // [Route("api/get")]
