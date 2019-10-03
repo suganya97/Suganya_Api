@@ -14,7 +14,8 @@ namespace MOD_BAL
   public  class user
     {
 
-        public MyEntity1 db = new MyEntity1();
+        public MyEntity12 db = new MyEntity12();
+        
         //office
         //public MOD_DBEntities db = new MOD_DBEntities();
         public List<UserDtl> GetAll()
@@ -116,6 +117,8 @@ namespace MOD_BAL
                 user.contactNumber = userDtl.contactNumber;
                 user.yearOfExperience = userDtl.yearOfExperience;
                 user.linkdinUrl = userDtl.linkdinUrl;
+                user.trainerTimings = userDtl.trainerTimings;
+                user.trainerTechnology = userDtl.trainerTechnology;
                 user.password = pass;
                 user.confirmedSignUp = userDtl.confirmedSignUp;
               
