@@ -33,6 +33,16 @@ namespace MOD_API.Controllers
             return Ok(ctrl.Get(id));
         }
 
+        // Get Search Data
+        [Route("api/getSearchData")]
+        [HttpGet]
+        public IHttpActionResult getSearchData(string trainerTechnology)
+        {
+            var result = ctrl.GetSearch(trainerTechnology);
+            return Ok(result);
+        }
+
+
         //POST: api/login
         //[Route("api/login")]
         //[HttpGet]
@@ -42,12 +52,12 @@ namespace MOD_API.Controllers
         //    return Ok(result);
         //}
 
-          
+
         //POST: api/login
         [Route("api/login")]
         [HttpGet]
         public IHttpActionResult LogIn(string email, string password)
-        {
+        {           
             var result = ctrl.Login(email, password);
             return Ok(result);
         }

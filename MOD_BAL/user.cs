@@ -14,7 +14,7 @@ namespace MOD_BAL
   public  class user
     {
 
-        public MyEntity12 db = new MyEntity12();
+        public MyEntity1 db = new MyEntity1();
         
         //office
         //public MOD_DBEntities db = new MOD_DBEntities();
@@ -26,6 +26,13 @@ namespace MOD_BAL
         public UserDtl Get(int id)
         {
                 return db.UserDtls.Find(id);  
+        }
+
+        public List<UserDtl> GetSearch(string trainerTechnology)
+        {
+            List<UserDtl> mentors;
+            mentors = db.UserDtls.Where(x => x.trainerTechnology == trainerTechnology).ToList();
+            return mentors;
         }
 
         public UserDetails Login(string email,string password)
@@ -60,6 +67,7 @@ namespace MOD_BAL
                 userInfo = authLogin
             };
         }
+
 
         public static string EncodePasswordToBase64(string password)
         {
