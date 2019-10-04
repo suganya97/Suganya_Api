@@ -15,7 +15,7 @@ namespace MOD_API.Controllers
     {
 
         MOD_BAL.user ctrl = new MOD_BAL.user();
-         //without header
+        //without header
         //user ctrl = new user();
 
 
@@ -23,7 +23,7 @@ namespace MOD_API.Controllers
         [Route("api/getAll")]
         public IHttpActionResult Get()
         {
-            return Ok(ctrl.GetAll()); 
+            return Ok(ctrl.GetAll());
         }
 
         // GET: api/user/5
@@ -42,22 +42,35 @@ namespace MOD_API.Controllers
             return Ok(result);
         }
 
+        [Route("api/allTrainingDetails")]
+        [HttpGet]
+        public IHttpActionResult GetAllTraining()
+        {
+            return Ok(ctrl.GetTrainingDetails());
+        }
 
-        //POST: api/login
-        //[Route("api/login")]
-        //[HttpGet]
-        //public IHttpActionResult LogIn(UserDtl userDtl)
-        //{
-        //    var result = ctrl.Login(userDtl);
-        //    return Ok(result);
-        //}
+        [Route("api/training/{id}")]
+        [HttpGet]
+        public IHttpActionResult GetTrainingById(int id)
+        {
+            return Ok(ctrl.getById(id));
+        }
+
+        [Route("api/enrollTraining")]
+        [HttpPost]
+        public IHttpActionResult enrollTrainings(TrainingDtl trainingDtl)
+        {
+            TrainingDtl result;
+            result = ctrl.saveTraining(trainingDtl);
+            return Ok(result);
+        }
 
 
         //POST: api/login
         [Route("api/login")]
         [HttpGet]
         public IHttpActionResult LogIn(string email, string password)
-        {           
+        {
             var result = ctrl.Login(email, password);
             return Ok(result);
         }
@@ -66,7 +79,7 @@ namespace MOD_API.Controllers
         [Route("api/register")]
         public IHttpActionResult Post(UserDtl userDtl)
         {
-            int result=ctrl.Register(userDtl);
+            int result = ctrl.Register(userDtl);
             if (result == 0)
             {
                 return Ok("User Registered");
@@ -116,37 +129,6 @@ namespace MOD_API.Controllers
             ctrl.UnBlock(id);
             return Ok("Unblocked");
         }
-
-        //// DELETE: api/Product/5
-        //[Route("api/Delete/{id}")]
-        //public IHttpActionResult Delete(int id)
-        //{
-        //    ctrl.Delete(id);
-        //    return Ok("Record Deleted");
-        //}
-
-
-       // [Route("api/get")]
-       // [HttpGet]
-       // public IHttpActionResult GetUser()
-       // {
-       //     var result = ctrl.GetAll();
-       //     return Ok(result);
-       // }
-       // [Route("api/get/{ID}")]
-       // public IHttpActionResult GetById(int id)
-       // {
-       //     var result = ctrl.GetUserById(id);
-       
-       //     return Ok(result);
-       // }
-        
-       // [Route("api/register")]
-       //[HttpPost]
-       // public UserDtl POST(UserDtl userDtl)
-       // {
-       //     ctrl.Register(userDtl);
-       //     return ctrl.GetUserById(userDtl.id);
-       // }
     }
 }
+

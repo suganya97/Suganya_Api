@@ -14,7 +14,7 @@ namespace MOD_BAL
   public  class user
     {
 
-        public MyEntity1 db = new MyEntity1();
+        public MyEntity db = new MyEntity();
         
         //office
         //public MOD_DBEntities db = new MOD_DBEntities();
@@ -25,8 +25,26 @@ namespace MOD_BAL
 
         public UserDtl Get(int id)
         {
-                return db.UserDtls.Find(id);  
+           return db.UserDtls.Find(id);  
         }
+
+        public TrainingDtl getById(int id)
+        {
+            return db.TrainingDtls.Find(id);
+        }
+
+        public TrainingDtl saveTraining(TrainingDtl trainingDtl)
+        {
+            TrainingDtl result;
+            result = db.TrainingDtls.Add(trainingDtl);
+            db.SaveChanges();
+            return result;
+        }
+        public List<TrainingDtl> GetTrainingDetails()
+        {
+            return db.TrainingDtls.ToList();
+        }
+
 
         public List<UserDtl> GetSearch(string trainerTechnology)
         {

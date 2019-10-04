@@ -13,10 +13,10 @@ namespace MOD_DAL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MyEntity1 : DbContext
+    public partial class MyEntity : DbContext
     {
-        public MyEntity1()
-            : base("name=MyEntity1")
+        public MyEntity()
+            : base("name=MyEntity")
         {
         }
     
@@ -27,7 +27,7 @@ namespace MOD_DAL
     
         public virtual DbSet<PaymentDtl> PaymentDtls { get; set; }
         public virtual DbSet<SkillDtl> SkillDtls { get; set; }
-        public virtual DbSet<TrainingDtl> TrainingDtls { get; set; }
         public virtual DbSet<UserDtl> UserDtls { get; set; }
+        public virtual DbSet<TrainingDtl> TrainingDtls { get; set; }
     }
 }

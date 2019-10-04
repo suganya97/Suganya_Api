@@ -4,12 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f86919c1aa6e4e1ea39e910c42457d8f" Name="Diagram1">
-        <EntityTypeShape EntityType="MODDBModel.PaymentDtl" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MODDBModel.SkillDtl" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="MODDBModel.TrainingDtl" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="MODDBModel.UserDtl" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="MODDBModel.FK_TrainingDtls_SkillDtls" ManuallyRouted="false" />
+      <Diagram DiagramId="75d8e2ce45ce4f7082940ce3b780cd67" Name="Diagram1" ZoomLevel="82">
+        <EntityTypeShape EntityType="MODDBModel.PaymentDtl" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MODDBModel.SkillDtl" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MODDBModel.UserDtl" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MODDBModel.TrainingDtl" Width="1.5" PointX="0.75" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

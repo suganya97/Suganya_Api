@@ -22,17 +22,15 @@ namespace MOD_DAL
         public Nullable<double> avaRating { get; set; }
         public Nullable<System.DateTime> startDate { get; set; }
         public Nullable<System.DateTime> endDate { get; set; }
-        public Nullable<System.DateTime> startTime { get; set; }
-        public Nullable<System.DateTime> endTime { get; set; }
+        public string timeSlot { get; set; }
         public Nullable<double> amountReceived { get; set; }
-        public int userId { get; set; }
+        public Nullable<int> userId { get; set; }
         public string userName { get; set; }
-        public int mentorId { get; set; }
+        public Nullable<int> mentorId { get; set; }
         public string mentorName { get; set; }
-        public int skillId { get; set; }
+        public Nullable<int> skillId { get; set; }
         public string skillname { get; set; }
-        public Nullable<double> fees { get; set; }
-    
-        public virtual SkillDtl SkillDtl { get; set; }
+        public Nullable<bool> accept { get; set; }
+        public Nullable<bool> rejectNotify { get; set; }
     }
 }
