@@ -23,5 +23,6 @@ namespace MOD_DAL
         public Nullable<double> commision { get; set; }
         public string skillName { get; set; }
         public Nullable<bool> paymentStatus { get; set; }
+        public Nullable<int> trainingDetailsId { get; set; }
     }
 }

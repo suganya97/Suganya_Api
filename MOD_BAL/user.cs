@@ -23,6 +23,11 @@ namespace MOD_BAL
                 return db.UserDtls.ToList();
         }
 
+        public List<PaymentDtl> getAllPayment()
+        {
+            return db.PaymentDtls.ToList();
+        }
+
         public UserDtl Get(int id)
         {
            return db.UserDtls.Find(id);  
@@ -35,13 +40,15 @@ namespace MOD_BAL
         }
 
  
-        public void savePayment(PaymentDtl payment)
+        public PaymentDtl savePayment(PaymentDtl payment)
         {
-            db.PaymentDtls.Add(payment);
+            PaymentDtl result;
+            result = db.PaymentDtls.Add(payment);
             db.SaveChanges();
+            return result;
         }
-
-
+    
+        
         public SkillDtl getSkillById(int id)
         {
             return db.SkillDtls.Find(id);
@@ -213,6 +220,17 @@ namespace MOD_BAL
             db.SaveChanges();
         }
 
+        public void trainingStatus(int id)
+        {
+            TrainingDtl user = db.TrainingDtls.Find(id);
+            user.status = "current";
+            user.progress = 0;
+            db.Configuration.ValidateOnSaveEnabled = false;
+            db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            db.Configuration.ValidateOnSaveEnabled = true;
+            db.SaveChanges();
+        }
+
         public void Block(int id)
         {
             UserDtl user = db.UserDtls.Find(id);
@@ -223,6 +241,17 @@ namespace MOD_BAL
             db.SaveChanges();
             
         }
+
+        public void trainingPaymentStatus(int id)
+        {
+            TrainingDtl user = db.TrainingDtls.Find(id);
+            user.trainingPaymentStatus = true;
+            db.Configuration.ValidateOnSaveEnabled = false;
+            db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            db.Configuration.ValidateOnSaveEnabled = true;
+            db.SaveChanges();
+        }
+
         public void changeAccept(int id)
         {
             TrainingDtl trainingDtl = db.TrainingDtls.Find(id);

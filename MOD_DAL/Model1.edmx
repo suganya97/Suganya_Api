@@ -18,6 +18,7 @@
           <Property Name="commision" Type="float" />
           <Property Name="skillName" Type="varchar" MaxLength="50" />
           <Property Name="paymentStatus" Type="bit" />
+          <Property Name="trainingDetailsId" Type="int" />
         </EntityType>
         <EntityType Name="SkillDtls">
           <Key>
@@ -34,7 +35,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="status" Type="varchar" MaxLength="50" />
+          <Property Name="status" Type="varchar" MaxLength="10" />
           <Property Name="progress" Type="int" />
           <Property Name="commisionAmount" Type="float" />
           <Property Name="rating" Type="int" />
@@ -51,6 +52,7 @@
           <Property Name="skillname" Type="varchar" MaxLength="50" />
           <Property Name="accept" Type="bit" />
           <Property Name="rejectNotify" Type="bit" />
+          <Property Name="trainingPaymentStatus" Type="bit" />
         </EntityType>
         <EntityType Name="UserDtls">
           <Key>
@@ -129,7 +131,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
           <Property Name="progress" Type="Int32" />
           <Property Name="commisionAmount" Type="Double" />
           <Property Name="rating" Type="Int32" />
@@ -146,6 +148,7 @@
           <Property Name="skillname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="accept" Type="Boolean" />
           <Property Name="rejectNotify" Type="Boolean" />
+          <Property Name="trainingPaymentStatus" Type="Boolean" />
         </EntityType>
         <EntityType Name="PaymentDtl">
           <Key>
@@ -160,6 +163,7 @@
           <Property Name="commision" Type="Double" />
           <Property Name="skillName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="paymentStatus" Type="Boolean" />
+          <Property Name="trainingDetailsId" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -205,6 +209,7 @@
           <EntitySetMapping Name="TrainingDtls">
             <EntityTypeMapping TypeName="MODDBModel.TrainingDtl">
               <MappingFragment StoreEntitySet="TrainingDtls">
+                <ScalarProperty Name="trainingPaymentStatus" ColumnName="trainingPaymentStatus" />
                 <ScalarProperty Name="rejectNotify" ColumnName="rejectNotify" />
                 <ScalarProperty Name="accept" ColumnName="accept" />
                 <ScalarProperty Name="skillname" ColumnName="skillname" />
@@ -229,6 +234,7 @@
           <EntitySetMapping Name="PaymentDtls">
             <EntityTypeMapping TypeName="MODDBModel.PaymentDtl">
               <MappingFragment StoreEntitySet="PaymentDtls">
+                <ScalarProperty Name="trainingDetailsId" ColumnName="trainingDetailsId" />
                 <ScalarProperty Name="paymentStatus" ColumnName="paymentStatus" />
                 <ScalarProperty Name="skillName" ColumnName="skillName" />
                 <ScalarProperty Name="commision" ColumnName="commision" />

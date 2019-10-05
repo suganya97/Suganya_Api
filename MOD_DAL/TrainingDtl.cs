@@ -32,5 +32,6 @@ namespace MOD_DAL
         public string skillname { get; set; }
         public Nullable<bool> accept { get; set; }
         public Nullable<bool> rejectNotify { get; set; }
+        public Nullable<bool> trainingPaymentStatus { get; set; }
     }
 }

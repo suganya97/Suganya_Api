@@ -46,6 +46,14 @@ namespace MOD_API.Controllers
             return Ok(ctrl.GetTrainingDetails());
         }
 
+        [Route("api/allPayment")]
+        [HttpGet]
+        public IHttpActionResult getAllPayment()
+        {
+            return Ok(ctrl.getAllPayment());
+        }
+
+
         [Route("api/training/{id}")]
         [HttpGet]
         public IHttpActionResult GetTrainingById(int id)
@@ -66,10 +74,10 @@ namespace MOD_API.Controllers
         [HttpPost]
         public IHttpActionResult savePayment(PaymentDtl payment)
         {
-            ctrl.savePayment(payment);
-            return Ok("Payment Done");
+            PaymentDtl result;
+            result = ctrl.savePayment(payment);
+            return Ok(result);
         }
-
 
         //POST: api/login
         [Route("api/login")]
@@ -126,6 +134,23 @@ namespace MOD_API.Controllers
             ctrl.DeleteTechnology(id);
             return Ok("Skill Deleted");
         }
+
+        [Route("api/trainingPaymentStatus/{id}")]
+        [HttpPut]
+        public IHttpActionResult trainingPaymentStatus(int id)
+        {
+            ctrl.trainingPaymentStatus(id);
+            return Ok("updated");
+        }
+
+        [Route("api/trainingStatus/{id}")]
+        [HttpPut]
+        public IHttpActionResult trainingStatus(int id)
+        {
+            ctrl.trainingStatus(id);
+            return Ok("updated");
+        }
+
 
         // PUT: api/user/5
         [Route("api/block/{id}")]
