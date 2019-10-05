@@ -25,9 +25,9 @@ namespace MOD_DAL
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<PaymentDtl> PaymentDtls { get; set; }
         public virtual DbSet<SkillDtl> SkillDtls { get; set; }
         public virtual DbSet<UserDtl> UserDtls { get; set; }
         public virtual DbSet<TrainingDtl> TrainingDtls { get; set; }
+        public virtual DbSet<PaymentDtl> PaymentDtls { get; set; }
     }
 }

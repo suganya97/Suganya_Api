@@ -15,10 +15,7 @@ namespace MOD_API.Controllers
     {
 
         MOD_BAL.user ctrl = new MOD_BAL.user();
-        //without header
-        //user ctrl = new user();
-
-
+      
         // GET: api/getallusersandmentors
         [Route("api/getAll")]
         public IHttpActionResult Get()
@@ -65,6 +62,14 @@ namespace MOD_API.Controllers
             return Ok(result);
         }
 
+        [Route("api/savePayment")]
+        [HttpPost]
+        public IHttpActionResult savePayment(PaymentDtl payment)
+        {
+            ctrl.savePayment(payment);
+            return Ok("Payment Done");
+        }
+
 
         //POST: api/login
         [Route("api/login")]
@@ -105,6 +110,15 @@ namespace MOD_API.Controllers
             return Ok(ctrl.GetAllTechnology());
         }
 
+        [Route("api/skill/{id}")]
+        [HttpGet]
+        public IHttpActionResult getSkillById(int id)
+        {
+            return Ok(ctrl.getSkillById(id));
+        }
+
+
+
         // DELETE: api/Product/5
         [Route("api/DeleteSkillById/{id}")]
         public IHttpActionResult DeleteSkill(int id)
@@ -129,6 +143,24 @@ namespace MOD_API.Controllers
             ctrl.UnBlock(id);
             return Ok("Unblocked");
         }
+
+        [Route("api/acceptStatus/{id}")]
+        [HttpPut]
+        public IHttpActionResult acceptStatus(int id)
+        {
+            ctrl.changeAccept(id);
+            return Ok("Accepted");
+        }
+
+        [Route("api/rejectStatus/{id}")]
+        [HttpPut]
+        public IHttpActionResult rejectStatus(int id)
+        {
+            ctrl.changeReject(id);
+            return Ok("Rejected");
+        }
+
+
     }
 }
 

@@ -31,6 +31,20 @@ namespace MOD_BAL
         public TrainingDtl getById(int id)
         {
             return db.TrainingDtls.Find(id);
+
+        }
+
+ 
+        public void savePayment(PaymentDtl payment)
+        {
+            db.PaymentDtls.Add(payment);
+            db.SaveChanges();
+        }
+
+
+        public SkillDtl getSkillById(int id)
+        {
+            return db.SkillDtls.Find(id);
         }
 
         public TrainingDtl saveTraining(TrainingDtl trainingDtl)
@@ -209,6 +223,27 @@ namespace MOD_BAL
             db.SaveChanges();
             
         }
+        public void changeAccept(int id)
+        {
+            TrainingDtl trainingDtl = db.TrainingDtls.Find(id);
+            trainingDtl.accept = true;
+            db.Configuration.ValidateOnSaveEnabled = false;
+            db.Entry(trainingDtl).State = System.Data.Entity.EntityState.Modified;
+            db.Configuration.ValidateOnSaveEnabled = true;
+            db.SaveChanges();
+        }
+
+        public void changeReject(int id)
+        {
+            TrainingDtl trainingDtl = db.TrainingDtls.Find(id);
+            trainingDtl.rejectNotify = true;
+            db.Configuration.ValidateOnSaveEnabled = false;
+            db.Entry(trainingDtl).State = System.Data.Entity.EntityState.Modified;
+            db.Configuration.ValidateOnSaveEnabled = true;
+            db.SaveChanges();
+        }
+
+
         public void UnBlock(int id)
         {
             UserDtl user = db.UserDtls.Find(id);

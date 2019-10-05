@@ -15,13 +15,13 @@ namespace MOD_DAL
     public partial class PaymentDtl
     {
         public int id { get; set; }
-        public string txtType { get; set; }
-        public Nullable<double> amount { get; set; }
-        public string remarks { get; set; }
-        public int mentorId { get; set; }
-        public string mentorName { get; set; }
-        public int trainingId { get; set; }
+        public Nullable<int> userId { get; set; }
+        public Nullable<int> trainerId { get; set; }
+        public Nullable<int> skillId { get; set; }
+        public Nullable<double> fees { get; set; }
+        public Nullable<double> trainerFees { get; set; }
+        public Nullable<double> commision { get; set; }
         public string skillName { get; set; }
-        public Nullable<double> totalAmountToMentor { get; set; }
+        public Nullable<bool> paymentStatus { get; set; }
     }
 }
