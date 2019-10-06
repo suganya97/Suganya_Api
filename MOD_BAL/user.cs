@@ -231,6 +231,20 @@ namespace MOD_BAL
             db.SaveChanges();
         }
 
+        public void changeProgress(int id,int progressValue)
+        {
+            TrainingDtl user = db.TrainingDtls.Find(id);
+            user.progress = progressValue;
+            if(progressValue == 100)
+            {
+                user.status = "completed";
+            }
+            db.Configuration.ValidateOnSaveEnabled = false;
+            db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            db.Configuration.ValidateOnSaveEnabled = true;
+            db.SaveChanges();
+        }
+
         public void Block(int id)
         {
             UserDtl user = db.UserDtls.Find(id);

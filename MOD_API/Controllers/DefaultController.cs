@@ -15,7 +15,7 @@ namespace MOD_API.Controllers
     {
 
         MOD_BAL.user ctrl = new MOD_BAL.user();
-      
+
         // GET: api/getallusersandmentors
         [Route("api/getAll")]
         public IHttpActionResult Get()
@@ -151,6 +151,13 @@ namespace MOD_API.Controllers
             return Ok("updated");
         }
 
+        [Route("api/changeProgress")]
+        [HttpPut]
+        public IHttpActionResult changeProgress(int id, int progressValue)
+        {
+            ctrl.changeProgress(id, progressValue);
+            return Ok("Progress Updated");
+        }
 
         // PUT: api/user/5
         [Route("api/block/{id}")]
