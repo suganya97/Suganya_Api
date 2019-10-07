@@ -54,6 +54,11 @@ namespace MOD_BAL
             return db.SkillDtls.Find(id);
         }
 
+        public PaymentDtl getPaymentById(int id)
+        {
+            return db.PaymentDtls.Find(id);
+        }
+
         public TrainingDtl saveTraining(TrainingDtl trainingDtl)
         {
             TrainingDtl result;
@@ -74,18 +79,18 @@ namespace MOD_BAL
             return mentors;
         }
 
-        public UserDetails Login(string email,string password)
+        public UserDetails Login(UserDtl user)
         {
 
             UserDtl authLogin;
             string message = null;
 
-            authLogin = db.UserDtls.SingleOrDefault(x => x.email == email);
+            authLogin = db.UserDtls.SingleOrDefault(x => x.email == user.email);
 
             if (authLogin != null)
             {
-                var pass = EncodePasswordToBase64(password);
-                authLogin = db.UserDtls.SingleOrDefault(x => x.email == email && x.password == pass);
+                var pass = EncodePasswordToBase64(user.password);
+                authLogin = db.UserDtls.SingleOrDefault(x => x.email == user.email && x.password == pass);
                 if (authLogin != null)
                 {
                     message = "Logged In Successfully";
@@ -265,6 +270,19 @@ namespace MOD_BAL
             db.Configuration.ValidateOnSaveEnabled = true;
             db.SaveChanges();
         }
+
+        public void updatePaymentAndCommisionmentById(int id,PaymentDtl paymentDtl)
+        {
+            PaymentDtl user = db.PaymentDtls.Find(id);
+            user.commision = paymentDtl.commision;
+            user.trainerFees = paymentDtl.trainerFees;
+            db.Configuration.ValidateOnSaveEnabled = false;
+            db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            db.Configuration.ValidateOnSaveEnabled = true;
+            db.SaveChanges();
+        }
+
+     
 
         public void changeAccept(int id)
         {

@@ -7,6 +7,11 @@ using System.Web.Http;
 using MOD_DAL;
 using MOD_BAL;
 using System.Data.Entity;
+using System.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.IO;
+using System.Security.Claims;
+using System.Web;
 
 
 namespace MOD_API.Controllers
@@ -81,11 +86,45 @@ namespace MOD_API.Controllers
 
         //POST: api/login
         [Route("api/login")]
-        [HttpGet]
-        public IHttpActionResult LogIn(string email, string password)
+        [HttpPost]
+        public IHttpActionResult LogIn([FromBody] UserDtl user)
         {
-            var result = ctrl.Login(email, password);
+            var result = ctrl.Login(user);
+
+            result.token = createToken(user.email);
+
             return Ok(result);
+        }
+
+        private string createToken(string username)
+        {
+            //Set issued at date
+            DateTime issuedAt = DateTime.UtcNow;
+            //set the time when it expires
+            DateTime expires = DateTime.UtcNow.AddDays(7);
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            //create a identity and add claims to the user which we want to log in
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.Name, username)
+            });
+
+            const string sec = "401b09eab3c013d4ca54922bb802bec8fd5318192b0a75f201d8b3727429090fb337591abd3e44453b954555b7a0812e1081c39b740293f765eae731f5a65ed1";
+            var now = DateTime.UtcNow;
+            var securityKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.Default.GetBytes(sec));
+            var signingCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(securityKey, Microsoft.IdentityModel.Tokens.SecurityAlgorithms.HmacSha256Signature);
+
+
+            //create the jwt
+            var token =
+                (JwtSecurityToken)
+                    tokenHandler.CreateJwtSecurityToken(issuer: "http://localhost:44307", audience: "http://localhost:44307",
+                        subject: claimsIdentity, notBefore: issuedAt, expires: expires, signingCredentials: signingCredentials);
+            var tokenString = tokenHandler.WriteToken(token);
+
+            return tokenString;
         }
 
         // POST: api/Register
@@ -103,6 +142,8 @@ namespace MOD_API.Controllers
             }
         }
 
+
+        //[Authorize]
         [Route("app/addTech")]
         [HttpPost]
         public IHttpActionResult addTechno(SkillDtl skill)
@@ -118,13 +159,14 @@ namespace MOD_API.Controllers
             return Ok(ctrl.GetAllTechnology());
         }
 
+
+
         [Route("api/skill/{id}")]
         [HttpGet]
         public IHttpActionResult getSkillById(int id)
         {
             return Ok(ctrl.getSkillById(id));
         }
-
 
 
         // DELETE: api/Product/5
@@ -134,6 +176,25 @@ namespace MOD_API.Controllers
             ctrl.DeleteTechnology(id);
             return Ok("Skill Deleted");
         }
+
+        
+
+        [Route("api/getPaymentById/{id}")]
+        [HttpGet]
+        public IHttpActionResult getPaymentById(int id)
+      {
+            return Ok(ctrl.getPaymentById(id));
+        }
+
+
+        [Route("api/updatePaymentAndCommision/{id}")]
+        [HttpPut]
+        public IHttpActionResult updatePaymentAndCommisionmentById(int id,PaymentDtl payment)
+        {
+            ctrl.updatePaymentAndCommisionmentById(id,payment);
+            return Ok("updated");
+        }
+
 
         [Route("api/trainingPaymentStatus/{id}")]
         [HttpPut]
