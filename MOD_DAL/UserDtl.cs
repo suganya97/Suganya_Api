@@ -23,7 +23,7 @@ namespace MOD_DAL
         public decimal contactNumber { get; set; }
         public string regCode { get; set; }
         public int role { get; set; }
-        public string linkdinUrl { get; set; }
+        public string linkedinUrl { get; set; }
         public Nullable<int> yearOfExperience { get; set; }
         public bool active { get; set; }
         public Nullable<bool> confirmedSignUp { get; set; }

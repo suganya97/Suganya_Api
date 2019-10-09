@@ -16,42 +16,37 @@ using System.Web;
 
 namespace MOD_API.Controllers
 {
+   
     public class DefaultController : ApiController
     {
 
         MOD_BAL.user ctrl = new MOD_BAL.user();
 
-        // GET: api/getallusersandmentors
-        [Route("api/getAll")]
-        public IHttpActionResult Get()
+        // Get All - API
+
+        //api/getAllRegistered
+
+        [Route("api/getAllRegistered")]
+        public IHttpActionResult getAllRegistered()
         {
-            return Ok(ctrl.GetAll());
+            return Ok(ctrl.getAllRegistered());
         }
 
-        // GET: api/user/5
-        [Route("api/user/{id}")]
-        public IHttpActionResult Get(int id)
-        {
-            return Ok(ctrl.Get(id));
-        }
-
-        // Get Search Data
-        [Route("api/getSearchData")]
+        [Route("api/getAllSkills")]
         [HttpGet]
-        public IHttpActionResult getSearchData(string trainerTechnology)
+        public IHttpActionResult getAllSkills()
         {
-            var result = ctrl.GetSearch(trainerTechnology);
-            return Ok(result);
+            return Ok(ctrl.getAllSkills());
         }
 
-        [Route("api/allTrainingDetails")]
+        [Route("api/getAllTraining")]
         [HttpGet]
-        public IHttpActionResult GetAllTraining()
+        public IHttpActionResult getAllTraining()
         {
-            return Ok(ctrl.GetTrainingDetails());
+            return Ok(ctrl.getAllTraining());
         }
 
-        [Route("api/allPayment")]
+        [Route("api/getAllPayment")]
         [HttpGet]
         public IHttpActionResult getAllPayment()
         {
@@ -59,16 +54,90 @@ namespace MOD_API.Controllers
         }
 
 
-        [Route("api/training/{id}")]
-        [HttpGet]
-        public IHttpActionResult GetTrainingById(int id)
+        // Get All By ID - API
+
+        // GET: api/getUserById/5
+        
+
+        [Route("api/getUserById/{id}")]
+        public IHttpActionResult getUserById(int id)
         {
-            return Ok(ctrl.getById(id));
+            return Ok(ctrl.getUserById(id));
         }
 
-        [Route("api/enrollTraining")]
+        [Route("api/getSkillById/{id}")]
+        [HttpGet]
+        public IHttpActionResult getSkillById(int id)
+        {
+            return Ok(ctrl.getSkillById(id));
+        }
+
+        [Route("api/getTrainingById/{id}")]
+        [HttpGet]
+        public IHttpActionResult getTrainingById(int id)
+        {
+            return Ok(ctrl.getTrainingById(id));
+        }
+
+        [Route("api/getPaymentById/{id}")]
+        [HttpGet]
+        public IHttpActionResult getPaymentById(int id)
+        {
+            return Ok(ctrl.getPaymentById(id));
+        }
+
+        // Get Search Data - API
+
+        [Route("api/getSearchData")]
+        [HttpGet]
+        public IHttpActionResult getSearchData(string trainerTechnology)
+        {
+            if (trainerTechnology != null)
+            {
+                var result = ctrl.getSearchData(trainerTechnology);
+                return Ok(result);
+            }
+            else
+            {
+                return Ok("Error finding data");
+            }
+        }
+
+        // Post Data In Db - API
+
+        // POST: api/Register
+
+        [Route("api/saveUser")]
+        public IHttpActionResult saveUser(UserDtl userDtl)
+        {
+            var result = ctrl.saveUser(userDtl);
+
+            if (result.message == "Registered Successfully")
+            {
+                return Ok(result);
+            }
+            else if(result.message == "Email Already Exists")
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return Ok("Error Saving Data");
+            }
+        }
+
+        
+        [Route("app/saveSkill")]
         [HttpPost]
-        public IHttpActionResult enrollTrainings(TrainingDtl trainingDtl)
+        public IHttpActionResult saveSkill(SkillDtl skill)
+        {
+            ctrl.saveSkill(skill);
+            return Ok("Technology Added");
+        }
+
+        [Route("api/saveTraining")]
+        [HttpPost]
+        public IHttpActionResult saveTraining(TrainingDtl trainingDtl)
         {
             TrainingDtl result;
             result = ctrl.saveTraining(trainingDtl);
@@ -79,24 +148,36 @@ namespace MOD_API.Controllers
         [HttpPost]
         public IHttpActionResult savePayment(PaymentDtl payment)
         {
-            PaymentDtl result;
-            result = ctrl.savePayment(payment);
-            return Ok(result);
+            if(payment != null)
+            {
+                PaymentDtl result;
+                result = ctrl.savePayment(payment);
+                return Ok(result);
+            }
+            else
+            {
+                return Ok("Data Not Saved");
+            }
         }
 
-        //POST: api/login
         [Route("api/login")]
         [HttpPost]
-        public IHttpActionResult LogIn([FromBody] UserDtl user)
+        public IHttpActionResult login([FromBody] UserDtl user)
         {
-            var result = ctrl.Login(user);
+            var result = ctrl.login(user);
 
-            result.token = createToken(user.email);
-
-            return Ok(result);
+            if (result.message == "Invalid Password" || result.message == "Email Not Registered")
+            {
+                return Ok(result);
+            }
+            else
+            {
+                result.token = createToken(user.email);
+                return Ok(result);
+            }
         }
 
-        private string createToken(string username)
+        private string createToken(string email)
         {
             //Set issued at date
             DateTime issuedAt = DateTime.UtcNow;
@@ -108,8 +189,8 @@ namespace MOD_API.Controllers
             //create a identity and add claims to the user which we want to log in
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[]
             {
-                new Claim(ClaimTypes.Name, username)
-            });
+                new Claim(ClaimTypes.Email , email)
+            }); ;
 
             const string sec = "401b09eab3c013d4ca54922bb802bec8fd5318192b0a75f201d8b3727429090fb337591abd3e44453b954555b7a0812e1081c39b740293f765eae731f5a65ed1";
             var now = DateTime.UtcNow;
@@ -127,132 +208,109 @@ namespace MOD_API.Controllers
             return tokenString;
         }
 
-        // POST: api/Register
-        [Route("api/register")]
-        public IHttpActionResult Post(UserDtl userDtl)
-        {
-            int result = ctrl.Register(userDtl);
-            if (result == 0)
-            {
-                return Ok("User Registered");
-            }
-            else
-            {
-                return Ok("Email already Exists");
-            }
-        }
+        // Put Data - API
 
+        // PUT: api/updatePaymentAndCommisionById/5
 
-        //[Authorize]
-        [Route("app/addTech")]
-        [HttpPost]
-        public IHttpActionResult addTechno(SkillDtl skill)
-        {
-            ctrl.addTechnology(skill);
-            return Ok("Technology Added");
-        }
-
-        [Route("api/getTech")]
-        [HttpGet]
-        public IHttpActionResult getTechno()
-        {
-            return Ok(ctrl.GetAllTechnology());
-        }
-
-
-
-        [Route("api/skill/{id}")]
-        [HttpGet]
-        public IHttpActionResult getSkillById(int id)
-        {
-            return Ok(ctrl.getSkillById(id));
-        }
-
-
-        // DELETE: api/Product/5
-        [Route("api/DeleteSkillById/{id}")]
-        public IHttpActionResult DeleteSkill(int id)
-        {
-            ctrl.DeleteTechnology(id);
-            return Ok("Skill Deleted");
-        }
-
-        
-
-        [Route("api/getPaymentById/{id}")]
-        [HttpGet]
-        public IHttpActionResult getPaymentById(int id)
-      {
-            return Ok(ctrl.getPaymentById(id));
-        }
-
-
-        [Route("api/updatePaymentAndCommision/{id}")]
+        [Route("api/updatePaymentAndCommisionById/{id}")]
         [HttpPut]
-        public IHttpActionResult updatePaymentAndCommisionmentById(int id,PaymentDtl payment)
+        public IHttpActionResult updatePaymentAndCommisionById(int id, PaymentDtl payment)
         {
-            ctrl.updatePaymentAndCommisionmentById(id,payment);
+            ctrl.updatePaymentAndCommisionById(id, payment);
             return Ok("updated");
         }
 
-
-        [Route("api/trainingPaymentStatus/{id}")]
+        [Route("api/updateUserProfileById/{id}")]
         [HttpPut]
-        public IHttpActionResult trainingPaymentStatus(int id)
+        public IHttpActionResult updateUserProfileById(int id, UserDtl user)
         {
-            ctrl.trainingPaymentStatus(id);
+            ctrl.updateUserProfileById(id, user);
             return Ok("updated");
         }
 
-        [Route("api/trainingStatus/{id}")]
+        [Route("api/updateTrainerProfileById/{id}")]
         [HttpPut]
-        public IHttpActionResult trainingStatus(int id)
+        public IHttpActionResult updateTrainerProfileById(int id, UserDtl user)
         {
-            ctrl.trainingStatus(id);
+            ctrl.updateTrainerProfileById(id, user);
             return Ok("updated");
         }
 
-        [Route("api/changeProgress")]
+       
+        [Route("api/updateTrainingAndPaymentStatusById/{id}")]
         [HttpPut]
-        public IHttpActionResult changeProgress(int id, int progressValue)
+        public IHttpActionResult updateTrainingAndPaymentStatusById(int id)
         {
-            ctrl.changeProgress(id, progressValue);
+            ctrl.updateTrainingAndPaymentStatusById(id);
+            return Ok("updated");
+        }
+
+        [Route("api/updateTrainingStatusById/{id}")]
+        [HttpPut]
+        public IHttpActionResult updateTrainingStatusById(int id)
+        {
+            ctrl.updateTrainingStatusById(id);
+            return Ok("updated");
+        }
+
+        [Route("api/updateTrainingProgressById")]
+        [HttpPut]
+        public IHttpActionResult updateTrainingProgressById(int id, int progressValue)
+        {
+            ctrl.updateTrainingProgressById(id, progressValue);
             return Ok("Progress Updated");
         }
 
-        // PUT: api/user/5
-        [Route("api/block/{id}")]
+        [Route("api/updateTrainingRatingById")]
         [HttpPut]
-        public IHttpActionResult Block(int id)
+        public IHttpActionResult updateTrainingRatingById(int id, int rating)
         {
-            ctrl.Block(id);
+            ctrl.updateTrainingRatingById(id, rating);
+            return Ok("Progress Updated");
+        }
+
+        [Route("api/blockById/{id}")]
+        [HttpPut]
+        public IHttpActionResult blockById(int id)
+        {
+            ctrl.blockById(id);
             return Ok("Blocked");
         }
 
-        [Route("api/unblock/{id}")]
+        [Route("api/unBlockById/{id}")]
         [HttpPut]
-        public IHttpActionResult Unblock(int id)
+        public IHttpActionResult unBlockById(int id)
         {
-            ctrl.UnBlock(id);
+            ctrl.unBlockById(id);
             return Ok("Unblocked");
         }
 
-        [Route("api/acceptStatus/{id}")]
+        [Route("api/acceptTrainingRequestById/{id}")]
         [HttpPut]
-        public IHttpActionResult acceptStatus(int id)
+        public IHttpActionResult acceptTrainingRequestById(int id)
         {
-            ctrl.changeAccept(id);
+            ctrl.acceptTrainingRequestById(id);
             return Ok("Accepted");
         }
 
-        [Route("api/rejectStatus/{id}")]
+        [Route("api/rejectTrainingRequestById/{id}")]
         [HttpPut]
-        public IHttpActionResult rejectStatus(int id)
+        public IHttpActionResult rejectTrainingRequestById(int id)
         {
-            ctrl.changeReject(id);
+            ctrl.rejectTrainingRequestById(id);
             return Ok("Rejected");
         }
 
+        // Delete Data By Id - API 
+
+        // DELETE: api/DeleteSkillById/5
+
+        [Route("api/DeleteSkillById/{id}")]
+        public IHttpActionResult DeleteSkillById(int id)
+        {
+            ctrl.DeleteSkillById(id);
+            return Ok("Skill Deleted");
+        }
 
     }
 }

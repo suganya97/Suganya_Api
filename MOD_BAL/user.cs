@@ -16,102 +16,295 @@ namespace MOD_BAL
 
         public MyEntity db = new MyEntity();
         
-        //office
-        //public MOD_DBEntities db = new MOD_DBEntities();
-        public List<UserDtl> GetAll()
+        // Get All 
+
+        public List<UserDtl> getAllRegistered()
         {
+            try
+            {
                 return db.UserDtls.ToList();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<SkillDtl> getAllSkills()
+        {
+            try
+            {
+                return db.SkillDtls.ToList();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<TrainingDtl> getAllTraining()
+        {
+            try
+            {
+                return db.TrainingDtls.ToList();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public List<PaymentDtl> getAllPayment()
         {
-            return db.PaymentDtls.ToList();
+            try
+            {
+                return db.PaymentDtls.ToList();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
-        public UserDtl Get(int id)
+        // Get All By ID 
+
+        public UserDtl getUserById(int id)
         {
-           return db.UserDtls.Find(id);  
+           try
+            {
+                return db.UserDtls.Find(id);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
-        public TrainingDtl getById(int id)
-        {
-            return db.TrainingDtls.Find(id);
-
-        }
-
- 
-        public PaymentDtl savePayment(PaymentDtl payment)
-        {
-            PaymentDtl result;
-            result = db.PaymentDtls.Add(payment);
-            db.SaveChanges();
-            return result;
-        }
-    
-        
         public SkillDtl getSkillById(int id)
         {
-            return db.SkillDtls.Find(id);
+            try
+            {
+                return db.SkillDtls.Find(id);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public TrainingDtl getTrainingById(int id)
+        {
+            try
+            {
+                return db.TrainingDtls.Find(id);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public PaymentDtl getPaymentById(int id)
         {
-            return db.PaymentDtls.Find(id);
+            try
+            {
+                return db.PaymentDtls.Find(id);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        // Get Search Data 
+
+        public List<UserDtl> getSearchData(string trainerTechnology)
+        {
+            try
+            {
+                List<UserDtl> tt;
+                tt = db.UserDtls.Where(x => x.trainerTechnology == trainerTechnology).ToList();
+                return tt;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        // Post Data In Db 
+
+        public UserDetails saveUser(UserDtl userDtl)
+        {
+            try
+            {
+                string message = null;
+                UserDtl user1 = db.UserDtls.SingleOrDefault(x => x.email == userDtl.email);
+                if (user1 == null)
+                {
+
+                    var pass = EncodePasswordToBase64(userDtl.password);
+
+                    if (userDtl.role == 1)
+                    {
+                        userDtl.active = true;
+                        var user = new UserDtl()
+                        {
+                            active = true,
+                            userName = userDtl.userName.Trim().ToLower(),
+                            email = userDtl.email.Trim().ToLower(),
+                            firstName = userDtl.firstName.Trim(),
+                            lastName = userDtl.lastName.Trim(),
+                            role = userDtl.role,
+                            password = pass
+                        };
+
+                        db.UserDtls.Add(user);
+
+                        db.SaveChanges();
+                        message = "Registered Successfully";
+                    }
+                    else if (userDtl.role == 2)
+                    {
+                        var user = new UserDtl();
+
+                        user.active = true;
+                        user.role = userDtl.role;
+                        user.userName = userDtl.userName.Trim().ToLower();
+                        user.email = userDtl.email.Trim().ToLower();
+                        user.firstName = userDtl.firstName.Trim();
+                        user.lastName = userDtl.lastName.Trim();
+                        user.contactNumber = userDtl.contactNumber;
+                        user.yearOfExperience = userDtl.yearOfExperience;
+                        user.linkedinUrl = userDtl.linkedinUrl;
+                        user.trainerTimings = userDtl.trainerTimings;
+                        user.trainerTechnology = userDtl.trainerTechnology;
+                        user.password = pass;
+                        user.confirmedSignUp = userDtl.confirmedSignUp;
+
+                        db.UserDtls.Add(user);
+
+                        db.SaveChanges();
+                        message = "Registered Successfully";
+
+                    }
+                    else if (userDtl.role == 3)
+                    {
+                        var user = new UserDtl();
+
+                        user.active = true;
+                        user.role = userDtl.role;
+                        user.userName = userDtl.userName.Trim().ToLower();
+                        user.email = userDtl.email.Trim().ToLower();
+                        user.firstName = userDtl.firstName.Trim();
+                        user.lastName = userDtl.lastName.Trim();
+                        user.contactNumber = userDtl.contactNumber;
+                        user.password = pass;
+                        user.confirmedSignUp = userDtl.confirmedSignUp;
+
+                        db.UserDtls.Add(user);
+
+                        db.SaveChanges();
+                        message = "Registered Successfully";
+                    }
+                }
+                else
+                {
+                    message = "Email Already Exists";
+                }
+                return new UserDetails()
+                {
+                    message = message
+                };
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public void saveSkill(SkillDtl skill)
+        {
+            try
+            {
+                db.SkillDtls.Add(skill);
+                db.SaveChanges();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public TrainingDtl saveTraining(TrainingDtl trainingDtl)
         {
-            TrainingDtl result;
-            result = db.TrainingDtls.Add(trainingDtl);
-            db.SaveChanges();
-            return result;
-        }
-        public List<TrainingDtl> GetTrainingDetails()
-        {
-            return db.TrainingDtls.ToList();
-        }
-
-
-        public List<UserDtl> GetSearch(string trainerTechnology)
-        {
-            List<UserDtl> mentors;
-            mentors = db.UserDtls.Where(x => x.trainerTechnology == trainerTechnology).ToList();
-            return mentors;
-        }
-
-        public UserDetails Login(UserDtl user)
-        {
-
-            UserDtl authLogin;
-            string message = null;
-
-            authLogin = db.UserDtls.SingleOrDefault(x => x.email == user.email);
-
-            if (authLogin != null)
+            try
             {
-                var pass = EncodePasswordToBase64(user.password);
-                authLogin = db.UserDtls.SingleOrDefault(x => x.email == user.email && x.password == pass);
+                TrainingDtl result;
+                result = db.TrainingDtls.Add(trainingDtl);
+                db.SaveChanges();
+                return result;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public PaymentDtl savePayment(PaymentDtl payment)
+        {
+            try
+            {
+                PaymentDtl result;
+                result = db.PaymentDtls.Add(payment);
+                db.SaveChanges();
+                return result;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+     
+        public UserDetails login(UserDtl user)
+        {
+            try
+            {
+                UserDtl authLogin;
+                string message = null;
+
+                authLogin = db.UserDtls.SingleOrDefault(x => x.email.ToLower() == user.email.ToLower());
+
                 if (authLogin != null)
                 {
-                    message = "Logged In Successfully";
+                    var pass = EncodePasswordToBase64(user.password);
+                    authLogin = db.UserDtls.SingleOrDefault(x => x.email.ToLower() == user.email.ToLower() && x.password == pass);
+                    if (authLogin != null)
+                    {
+                        message = "Logged In Successfully";
+                    }
+                    else
+                    {
+                        message = "Invalid Password";
+                    }
                 }
                 else
                 {
-                    message = "Invalid Password";
+                    message = "Email Not Registered";
                 }
+                return new UserDetails()
+                {
+                    message = message,
+                    token = null,
+                    userInfo = authLogin
+                };
             }
-            else
+            catch
             {
-                message = "Email Not Registered";
+                throw;
             }
-            return new UserDetails()
-            {
-                message = message,
-                token = null,
-                userInfo = authLogin
-            };
+            
         }
-
 
         public static string EncodePasswordToBase64(string password)
         {
@@ -127,263 +320,229 @@ namespace MOD_BAL
                 throw new Exception("Error in base64Encode" + ex.Message);
             }
         }
-        public int Register(UserDtl userDtl)
+
+        // Update Data 
+
+        public void updatePaymentAndCommisionById(int id, PaymentDtl paymentDtl)
         {
-            int flag=0;
-            UserDtl authLogin = db.UserDtls.FirstOrDefault(x => x.email == userDtl.email);
-            if(authLogin == null)
+            try
             {
-
-                var pass = EncodePasswordToBase64(userDtl.password);
-
-            if (userDtl.role == 1)
-            {
-                userDtl.active = true;
-                    var user = new UserDtl()
-                    {
-                        active = true,
-                        userName = userDtl.userName.Trim(),
-                        email = userDtl.email.Trim(),
-                        firstName = userDtl.firstName.Trim(),
-                        lastName = userDtl.lastName.Trim(),
-                        role = userDtl.role,
-                        password = pass
-                };
-
-                db.UserDtls.Add(user);
-
+                PaymentDtl user = db.PaymentDtls.Find(id);
+                user.commision = paymentDtl.commision;
+                user.trainerFees = paymentDtl.trainerFees;
+                db.Configuration.ValidateOnSaveEnabled = false;
+                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                db.Configuration.ValidateOnSaveEnabled = true;
                 db.SaveChanges();
-                    flag= 0;
             }
-            else if(userDtl.role == 2)
+            catch
             {
-                
-                var user = new UserDtl();
+                throw;
+            }
+        }
 
-                user.active = true;
-                user.role = userDtl.role;
-                user.userName = userDtl.userName.Trim();
-                user.email = userDtl.email.Trim();
+        public void updateUserProfileById(int id, UserDtl userDtl)
+        {
+            try
+            {
+                UserDtl user = db.UserDtls.Find(id);
+
+                user.userName = userDtl.userName.Trim().ToLower();
+                user.email = userDtl.email.Trim().ToLower();
+                user.firstName = userDtl.firstName.Trim();
+                user.lastName = userDtl.lastName.Trim();
+                user.contactNumber = userDtl.contactNumber;
+                db.Configuration.ValidateOnSaveEnabled = false;
+                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                db.Configuration.ValidateOnSaveEnabled = true;
+                db.SaveChanges();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public void updateTrainerProfileById(int id, UserDtl userDtl)
+        {
+            try
+            {
+                UserDtl user = db.UserDtls.Find(id);
+                
+                user.userName = userDtl.userName.Trim().ToLower();
+                user.email = userDtl.email.Trim().ToLower();
                 user.firstName = userDtl.firstName.Trim();
                 user.lastName = userDtl.lastName.Trim();
                 user.contactNumber = userDtl.contactNumber;
                 user.yearOfExperience = userDtl.yearOfExperience;
-                user.linkdinUrl = userDtl.linkdinUrl;
-                user.trainerTimings = userDtl.trainerTimings;
+                user.linkedinUrl = userDtl.linkedinUrl;
                 user.trainerTechnology = userDtl.trainerTechnology;
-                user.password = pass;
-                user.confirmedSignUp = userDtl.confirmedSignUp;
-              
-                db.UserDtls.Add(user);
-
+                db.Configuration.ValidateOnSaveEnabled = false;
+                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                db.Configuration.ValidateOnSaveEnabled = true;
                 db.SaveChanges();
-                    flag = 0;
-
             }
-            else if(userDtl.role == 3)
+            catch
             {
-                var user = new UserDtl();
+                throw;
+            }
+        }
 
+        public void updateTrainingAndPaymentStatusById(int id)
+        {
+            try
+            {
+                TrainingDtl user = db.TrainingDtls.Find(id);
+                user.trainingPaymentStatus = true;
+                db.Configuration.ValidateOnSaveEnabled = false;
+                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                db.Configuration.ValidateOnSaveEnabled = true;
+                db.SaveChanges();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public void updateTrainingStatusById(int id)
+        {
+            try
+            {
+                TrainingDtl user = db.TrainingDtls.Find(id);
+                user.status = "current";
+                user.progress = 0;
+                db.Configuration.ValidateOnSaveEnabled = false;
+                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                db.Configuration.ValidateOnSaveEnabled = true;
+                db.SaveChanges();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public void updateTrainingProgressById(int id, int progressValue)
+        {
+            try
+            {
+                TrainingDtl user = db.TrainingDtls.Find(id);
+                user.progress = progressValue;
+                if (progressValue == 100)
+                {
+                    user.status = "completed";
+                }
+                db.Configuration.ValidateOnSaveEnabled = false;
+                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                db.Configuration.ValidateOnSaveEnabled = true;
+                db.SaveChanges();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        
+        public void updateTrainingRatingById(int id, int rating)
+        {
+            try
+            {
+                TrainingDtl user = db.TrainingDtls.Find(id);
+                user.rating = rating;
+                db.Configuration.ValidateOnSaveEnabled = false;
+                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                db.Configuration.ValidateOnSaveEnabled = true;
+                db.SaveChanges();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public void blockById(int id)
+        {
+            try
+            {
+                UserDtl user = db.UserDtls.Find(id);
+                user.active = false;
+                db.Configuration.ValidateOnSaveEnabled = false;
+                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                db.Configuration.ValidateOnSaveEnabled = true;
+                db.SaveChanges();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        
+        public void unBlockById(int id)
+        {
+            try
+            {
+                UserDtl user = db.UserDtls.Find(id);
                 user.active = true;
-                user.role = userDtl.role;
-                user.userName = userDtl.userName.Trim();
-                user.email = userDtl.email.Trim();
-                user.firstName = userDtl.firstName.Trim();
-                user.lastName = userDtl.lastName.Trim();
-                user.contactNumber = userDtl.contactNumber;
-                user.password = pass;
-                user.confirmedSignUp = userDtl.confirmedSignUp;
-
-                db.UserDtls.Add(user);
-
+                db.Configuration.ValidateOnSaveEnabled = false;
+                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                db.Configuration.ValidateOnSaveEnabled = true;
                 db.SaveChanges();
-                    flag=0;
             }
-
-            }  
-            else
+            catch
             {
-                flag = 1;
+                throw;
             }
-            return flag;
         }
 
-        public void addTechnology(SkillDtl skill)
+        public void acceptTrainingRequestById(int id)
         {
-            db.SkillDtls.Add(skill);
-            db.SaveChanges();
-        }
-
-        public List<SkillDtl> GetAllTechnology()
-        {
-            return db.SkillDtls.ToList();
-        }
-
-        public void DeleteTechnology(int id)
-        {
-            db.SkillDtls.Remove(db.SkillDtls.Find(id));
-            db.SaveChanges();
-        }
-
-        public void trainingStatus(int id)
-        {
-            TrainingDtl user = db.TrainingDtls.Find(id);
-            user.status = "current";
-            user.progress = 0;
-            db.Configuration.ValidateOnSaveEnabled = false;
-            db.Entry(user).State = System.Data.Entity.EntityState.Modified;
-            db.Configuration.ValidateOnSaveEnabled = true;
-            db.SaveChanges();
-        }
-
-        public void changeProgress(int id,int progressValue)
-        {
-            TrainingDtl user = db.TrainingDtls.Find(id);
-            user.progress = progressValue;
-            if(progressValue == 100)
+            try
             {
-                user.status = "completed";
+                TrainingDtl trainingDtl = db.TrainingDtls.Find(id);
+                trainingDtl.accept = true;
+                db.Configuration.ValidateOnSaveEnabled = false;
+                db.Entry(trainingDtl).State = System.Data.Entity.EntityState.Modified;
+                db.Configuration.ValidateOnSaveEnabled = true;
+                db.SaveChanges();
             }
-            db.Configuration.ValidateOnSaveEnabled = false;
-            db.Entry(user).State = System.Data.Entity.EntityState.Modified;
-            db.Configuration.ValidateOnSaveEnabled = true;
-            db.SaveChanges();
+            catch
+            {
+                throw;
+            }
         }
 
-        public void Block(int id)
+        public void rejectTrainingRequestById(int id)
         {
-            UserDtl user = db.UserDtls.Find(id);
-            user.active = false;
-            db.Configuration.ValidateOnSaveEnabled = false;
-            db.Entry(user).State = System.Data.Entity.EntityState.Modified;
-            db.Configuration.ValidateOnSaveEnabled = true;
-            db.SaveChanges();
-            
+            try
+            {
+                TrainingDtl trainingDtl = db.TrainingDtls.Find(id);
+                trainingDtl.rejectNotify = true;
+                db.Configuration.ValidateOnSaveEnabled = false;
+                db.Entry(trainingDtl).State = System.Data.Entity.EntityState.Modified;
+                db.Configuration.ValidateOnSaveEnabled = true;
+                db.SaveChanges();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
-        public void trainingPaymentStatus(int id)
+        // Delete Data
+
+        public void DeleteSkillById(int id)
         {
-            TrainingDtl user = db.TrainingDtls.Find(id);
-            user.trainingPaymentStatus = true;
-            db.Configuration.ValidateOnSaveEnabled = false;
-            db.Entry(user).State = System.Data.Entity.EntityState.Modified;
-            db.Configuration.ValidateOnSaveEnabled = true;
-            db.SaveChanges();
+            try
+            {
+                db.SkillDtls.Remove(db.SkillDtls.Find(id));
+                db.SaveChanges();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
-        public void updatePaymentAndCommisionmentById(int id,PaymentDtl paymentDtl)
-        {
-            PaymentDtl user = db.PaymentDtls.Find(id);
-            user.commision = paymentDtl.commision;
-            user.trainerFees = paymentDtl.trainerFees;
-            db.Configuration.ValidateOnSaveEnabled = false;
-            db.Entry(user).State = System.Data.Entity.EntityState.Modified;
-            db.Configuration.ValidateOnSaveEnabled = true;
-            db.SaveChanges();
-        }
-
-     
-
-        public void changeAccept(int id)
-        {
-            TrainingDtl trainingDtl = db.TrainingDtls.Find(id);
-            trainingDtl.accept = true;
-            db.Configuration.ValidateOnSaveEnabled = false;
-            db.Entry(trainingDtl).State = System.Data.Entity.EntityState.Modified;
-            db.Configuration.ValidateOnSaveEnabled = true;
-            db.SaveChanges();
-        }
-
-        public void changeReject(int id)
-        {
-            TrainingDtl trainingDtl = db.TrainingDtls.Find(id);
-            trainingDtl.rejectNotify = true;
-            db.Configuration.ValidateOnSaveEnabled = false;
-            db.Entry(trainingDtl).State = System.Data.Entity.EntityState.Modified;
-            db.Configuration.ValidateOnSaveEnabled = true;
-            db.SaveChanges();
-        }
-
-
-        public void UnBlock(int id)
-        {
-            UserDtl user = db.UserDtls.Find(id);
-            user.active = true;
-            db.Configuration.ValidateOnSaveEnabled = false;
-            db.Entry(user).State = System.Data.Entity.EntityState.Modified;
-            db.Configuration.ValidateOnSaveEnabled = true;
-            db.SaveChanges();
-        }
-
-        //=========        
-        //public IList<UserDtl> GetAll()
-        //{
-        //    return db.UserDtls.ToList();
-        //}
-
-        //public UserDtl GetUserById(int id)
-        //{
-        //    return db.UserDtls.Find(id);
-        //}
-
-        //public void Register(UserDtl userDtl)
-        //{
-        //    //mentor
-        //    if (userDtl.role == 2)
-        //    {
-        //      var user  = new UserDtl()
-        //        {
-        //            userName = userDtl.userName,
-        //            email = userDtl.email,
-        //            firstName = userDtl.firstName,
-        //            lastName = userDtl.lastName,
-        //            contactNumber = userDtl.contactNumber,
-        //            yearOfExperience = userDtl.yearOfExperience,
-        //            linkdinUrl = userDtl.linkdinUrl,
-        //            role = userDtl.role,
-        //            password = userDtl.password,
-        //            confirmedSignUp = userDtl.confirmedSignUp,
-        //            active = userDtl.active
-        //        };
-
-        //        db.UserDtls.Add(user);
-        //    }
-        //    // for mentor
-        //    else if(userDtl.role == 3)
-        //    {
-        //        var user = new UserDtl()
-        //        {
-        //            userName = userDtl.userName,
-        //            email = userDtl.email,
-        //            password = userDtl.password,
-        //            firstName = userDtl.firstName,
-        //            lastName = userDtl.lastName,
-        //            role = userDtl.role,
-        //            contactNumber = userDtl.contactNumber,
-        //            confirmedSignUp = userDtl.confirmedSignUp,
-        //            active = userDtl.active
-        //        };
-
-        //        db.UserDtls.Add(user);
-        //    }
-
-        //    db.SaveChanges();
-        //}
-
-        //public void Delete(int id)
-        //{
-        //    UserDtl user = db.UserDtls.Find(id);
-        //    db.UserDtls.Remove(user);
-        //    db.SaveChanges();
-        //}
-
-        //public void update(UserDtl userDtl)
-        //{
-        //    db.Entry(userDtl).State = EntityState.Modified;
-        //    db.Configuration.ValidateOnSaveEnabled = false;
-        //    db.SaveChanges();
-        //    db.Configuration.ValidateOnSaveEnabled = true;
-        //}
-
-    }
+  }
 }
