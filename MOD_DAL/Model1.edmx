@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MODDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MyEntityModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="PaymentDtls">
           <Key>
             <PropertyRef Name="id" />
@@ -77,7 +77,7 @@
           <Property Name="trainerTimings" Type="varchar" MaxLength="50" />
           <Property Name="trainerTechnology" Type="varchar" MaxLength="50" />
         </EntityType>
-        <EntityContainer Name="MODDBModelStoreContainer">
+        <EntityContainer Name="MyEntityModelStoreContainer">
           <EntitySet Name="PaymentDtls" EntityType="Self.PaymentDtls" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SkillDtls" EntityType="Self.SkillDtls" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrainingDtls" EntityType="Self.TrainingDtls" Schema="dbo" store:Type="Tables" />
@@ -87,7 +87,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="MODDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="MyEntityModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="PaymentDtl">
           <Key>
             <PropertyRef Name="id" />
@@ -160,7 +160,7 @@
           <Property Name="trainerTimings" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="trainerTechnology" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityContainer Name="MyEntity" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="Mydb" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="PaymentDtls" EntityType="Self.PaymentDtl" />
           <EntitySet Name="SkillDtls" EntityType="Self.SkillDtl" />
           <EntitySet Name="TrainingDtls" EntityType="Self.TrainingDtl" />
@@ -171,9 +171,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="MODDBModelStoreContainer" CdmEntityContainer="MyEntity">
+        <EntityContainerMapping StorageEntityContainer="MyEntityModelStoreContainer" CdmEntityContainer="Mydb">
           <EntitySetMapping Name="PaymentDtls">
-            <EntityTypeMapping TypeName="MODDBModel.PaymentDtl">
+            <EntityTypeMapping TypeName="MyEntityModel.PaymentDtl">
               <MappingFragment StoreEntitySet="PaymentDtls">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="userId" ColumnName="userId" />
@@ -189,7 +189,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SkillDtls">
-            <EntityTypeMapping TypeName="MODDBModel.SkillDtl">
+            <EntityTypeMapping TypeName="MyEntityModel.SkillDtl">
               <MappingFragment StoreEntitySet="SkillDtls">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -200,7 +200,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TrainingDtls">
-            <EntityTypeMapping TypeName="MODDBModel.TrainingDtl">
+            <EntityTypeMapping TypeName="MyEntityModel.TrainingDtl">
               <MappingFragment StoreEntitySet="TrainingDtls">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="status" ColumnName="status" />
@@ -225,7 +225,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserDtls">
-            <EntityTypeMapping TypeName="MODDBModel.UserDtl">
+            <EntityTypeMapping TypeName="MyEntityModel.UserDtl">
               <MappingFragment StoreEntitySet="UserDtls">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="email" ColumnName="email" />

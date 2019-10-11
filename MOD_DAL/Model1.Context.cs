@@ -13,10 +13,10 @@ namespace MOD_DAL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MyEntity : DbContext
+    public partial class Mydb : DbContext
     {
-        public MyEntity()
-            : base("name=MyEntity")
+        public Mydb()
+            : base("name=Mydb")
         {
         }
     

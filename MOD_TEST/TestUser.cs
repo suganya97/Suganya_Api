@@ -26,15 +26,15 @@ namespace MOD_TEST
             user user = new user();
             UserDtl user1 = new UserDtl()
             {
-                firstName = "Shivam",
-                lastName = "Sharma",
-                userName = "shivammanawat2526",
-                password = "9876",
-                email = "shivammanawat2526@gmail.com",
-                contactNumber = 9876350744,
-                linkedinUrl = "www.linkedin.com",
-                yearOfExperience = 12,
-                trainerTechnology = "Mean Stack",
+                firstName = "sruti",
+                lastName = "r",
+                userName = "sruthi",
+                password = "sruthi",
+                email = "sruti@gmail.com",
+                contactNumber = 9808970688,
+                linkedinUrl = "sruthi",
+                yearOfExperience = 15,
+                trainerTechnology = "Python",
                 active = true,
                 role = 2,
             };
@@ -71,23 +71,7 @@ namespace MOD_TEST
         }
 
 
-        [Test]
-        public void getSkillById()
-        {
-            user user = new user();
-            SkillDtl p = user.getSkillById(1);
-            Assert.IsNotNull(p);
-        }
-
-        [Test]
-        public void delete()
-        {
-            user user = new user();
-            user.DeleteSkillById(1);
-            SkillDtl sk = user.getSkillById(1);
-            Assert.IsTrue(sk == null);
-        }
-
+       
 
 
     }
